@@ -1,0 +1,16 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Python virtual environments and generated files
+demoenv/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# IDE files
+.idea/
+.vscode/
