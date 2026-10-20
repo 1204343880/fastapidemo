@@ -1,8 +1,11 @@
 # 增删改查逻辑全在这 通过一个类实现
 from sqlmodel.ext.asyncio.session import AsyncSession
 from .schema import MovieCreateModel, MovieUpdateModel
-from sqlalchemy import select, desc
+# 错误原因  from sqlalchemy import select, desc
+from sqlmodel import select, desc
 from .models import Movie
+from datetime import datetime
+from uuid import UUID
 
 
 class Service:
@@ -18,8 +21,8 @@ class Service:
         return result.all()
 
     # 通过uid 根据uid查询电影
-    async def get_movie(self, movie_uid: str, session: AsyncSession):
-        statement = select(Movie).where(Movie.movie_uid == movie_uid)
+    async def get_movie(self, movie_uid: UUID, session: AsyncSession):
+        statement = select(Movie).where(Movie.uid == movie_uid)
         result = await session.exec(statement)
         movie = result.first()
         if movie is not None:
@@ -31,26 +34,34 @@ class Service:
     async def create_movie(self, movie_data: MovieCreateModel, session: AsyncSession):
         movie_data_dict = movie_data.model_dump()
         new_movie = Movie(**movie_data_dict)
+        new_movie.release_date = datetime.strptime(movie_data_dict['release_date'], '%Y-%m-%d').date()
         session.add(new_movie)
         await session.commit()
         return new_movie
 
     # 更新电影信息
     async def update_movie(self, movie_uid: str, update_data: MovieUpdateModel, session: AsyncSession):
-        movie_to_update = session.get_movie(movie_uid, session)
-        if movie_to_update is not None:
-            update_data_dict = update_data.model_dump()
+        movie_to_update = await self.get_movie(movie_uid, session)
+        if movie_to_update is None:
+            return None
+        update_data_dict = update_data.model_dump()
+        update_data_dict["release_date"] = datetime.strptime(
+            update_data_dict["release_date"], "%Y-%m-%d"
+        ).date()
 
         for key, value in update_data_dict.items():
             setattr(movie_to_update, key, value)
+
         await session.commit()
         return movie_to_update
 
+
     # 根据id 删除电影
     async def delete_movie(self, movie_uid: str, session: AsyncSession):
-        movie_to_delete = session.get_movie(movie_uid, session)
+        movie_to_delete = await self.get_movie(movie_uid, session)
         if movie_to_delete is not None:
             await session.delete(movie_to_delete)
             await session.commit()
+            return True
         else:
             return None

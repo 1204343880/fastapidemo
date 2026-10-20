@@ -9,7 +9,6 @@ from uuid import UUID
 
 # 定义模型类
 class Movie(SQLModel,table=True):
-    movie_uid = None
     __tablename__ = "movies"
     # Field(...) 则提供这个字段的额外规则。
     uid: UUID = Field(

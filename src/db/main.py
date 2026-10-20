@@ -4,12 +4,13 @@
 from markdown_it.rules_inline import text
 # asyncmy:让 Python 能异步连接 MySQL 的驱动
 # sqlmodel:在 SQLAlchemy 和 Pydantic 基础上，提供更方便的模型定义
-from sqlmodel import create_engine, text, SQLModel
+from sqlmodel import create_engine, SQLModel
 # Q:这个又是什么？  为什么sqlalchemy可以直接用
 # SQLAlchemy：负责 Engine、连接、Session、ORM 等数据库操作机制。
 # A:SQLModel 建立在 SQLAlchemy 之上，所以会作为依赖一起安装。
 from sqlalchemy.ext.asyncio import AsyncEngine
-from sqlalchemy.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.orm import sessionmaker
 from src.movies.models import Movie
 from src.config import Config
@@ -22,21 +23,17 @@ from src.config import Config
 # create_async_engine 会创建异步 Engine
 
 # 异步引擎
-engine = AsyncEngine(
-    create_engine(
-        url=Config.DATABASE_URL,
-        # 建一个配置对象，并把它放进变量 Config
-        echo=True,
-    ))
+# engine = AsyncEngine(
+#     create_async_engine(
+#         url=Config.DATABASE_URL,
+#         # 建一个配置对象，并把它放进变量 Config
+#         echo=True,
+#     ))
+engine = create_async_engine(
+    Config.DATABASE_URL,
+    echo=True,
+)
 
-
-# 这个又是为了什么？
-# async def init_db():
-#     async with engine.begin() as conn:
-#         statement = text("SELECT 'HELLO';")
-#
-#         result = await conn.execute(statement)
-#         print(result.all( ))
 
 async def init_db():
     async with engine.begin() as conn:

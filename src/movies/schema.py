@@ -11,7 +11,7 @@ class Movie(BaseModel):
     title: str
     director: str
     production_company: str
-    release_date: str
+    release_date: date
     duration_minutes: int
     language: str
     created_date: datetime
@@ -19,9 +19,12 @@ class Movie(BaseModel):
 
 
 class MovieCreateModel(BaseModel):
-    uid: uuid.UUID
     title: str
     director: str
+    production_company: str
+    release_date: str
+    duration_minutes: int
+    language: str
 
 
 class MovieUpdateModel(BaseModel):
