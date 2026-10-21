@@ -1,0 +1,13 @@
+Generic single-database configuration with an async dbapi.
+# 单纯一个自述文件
+
+# 迁移的作用是：项目代码更新了，数据库表结构也能跟着更新，通常不用删表重建。
+# 迁移：记录数据库从旧结构变成新结构的步骤，例如增加字段、修改类型、建立索引。
+# Q:为什么需要迁移？ 那进行sql操作 不是也行吗 就是python写sql语句然后映射数据库操作
+# A:Alembic 的价值，是管理“这些修改何时执行、执行过哪些、下一步该执行哪个”。
+# A:Alembic 将这些变化保存为有顺序的迁移脚本，并通过数据库里的 alembic_version 表记录当前版本，从而判断还需要执行哪些脚本
+
+# 脚本模板  alembic init -t async migrations
+# init -初始化迁移环境，生成基础文件     -t async -选择异步连接模板
+
+# alembic upgrade head   查看最新迁移 并且将其应用到数据库
