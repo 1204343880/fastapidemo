@@ -62,6 +62,6 @@ class Service:
         if movie_to_delete is not None:
             await session.delete(movie_to_delete)
             await session.commit()
-            return True
+            return {}
         else:
             return None

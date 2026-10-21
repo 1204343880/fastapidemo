@@ -34,7 +34,6 @@ engine = create_async_engine(
     echo=True,
 )
 
-
 async def init_db():
     async with engine.begin() as conn:
         # 创建并访问元数据
