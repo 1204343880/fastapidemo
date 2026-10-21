@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, Depends
 from fastapi.exceptions import HTTPException
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from src.movies.service import Service
-from src.movies.schema import  Movie,MovieCreateModel,MovieUpdateModel
+from src.movies.schemas import  Movie,MovieCreateModel,MovieUpdateModel
 from src.db.main import get_session
 from typing import List
 from uuid import UUID

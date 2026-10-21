@@ -19,6 +19,8 @@ class User(SQLModel, table=True):
     first_name: str
     last_name: str
     is_verified: bool = Field(default=False)
+    # exclude=True，意思是：把模型转成字典或 JSON 时，默认排除这个字段。
+    password_hash: str =Field(exclude=True)
     created_date: datetime = Field(sa_column=Column(mysql.TIMESTAMP,default=datetime.now))
     update_date: datetime = Field(sa_column=Column(mysql.TIMESTAMP,default=datetime.now))
 

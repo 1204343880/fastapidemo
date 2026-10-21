@@ -1,6 +1,6 @@
 # 增删改查逻辑全在这 通过一个类实现
 from sqlmodel.ext.asyncio.session import AsyncSession
-from .schema import MovieCreateModel, MovieUpdateModel
+from .schemas import MovieCreateModel, MovieUpdateModel
 # 错误原因  from sqlalchemy import select, desc
 from sqlmodel import select, desc
 from .models import Movie

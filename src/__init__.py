@@ -3,7 +3,7 @@ from src.movies.routes import movie_router
 from contextlib import asynccontextmanager
 # 它是一个协程
 from src.db.main import init_db
-
+from src.auth.routes import auth_router
 
 @asynccontextmanager
 async def life_span(app: FastAPI):
@@ -31,4 +31,9 @@ app = FastAPI(
 app.include_router(movie_router,
                    prefix=f"/api/{version}/movies",
                    tags=["movies"]
+                   )
+
+app.include_router(auth_router,
+                   prefix=f"/api/{version}/auth",
+                   tags=["auth"]
                    )
