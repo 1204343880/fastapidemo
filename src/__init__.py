@@ -17,10 +17,10 @@ async def life_span(app: FastAPI):
 
 version = "v1"
 
-# lifespan 用于接收特殊代码
+# lifespan 用于接收的特殊代码
 app = FastAPI(
     title="movie api",
-    description="一个用于电影评价网络服务的REST API",
+    description="一个用于电影网评服务的REST API",
     version=version,
     lifespan=life_span,
 )

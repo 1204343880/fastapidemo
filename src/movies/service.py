@@ -7,9 +7,11 @@ from .models import Movie
 from datetime import datetime
 from uuid import UUID
 
+from fastapi.exceptions import HTTPException
+
 
 class Service:
-    # 接收self 通过book service对象访问方法
+    # 接收self 通过movie service对象访问方法
     # session 帮助对数据库执行任意类型增删改查
     # 获取全部电影列表
     # session: AsyncSession：声明这个方法需要一个异步数据库会话。这只是类型标注，不会自动创建或传入 session。
@@ -32,9 +34,20 @@ class Service:
 
     # 创建电影
     async def create_movie(self, movie_data: MovieCreateModel, session: AsyncSession):
+        #model_dump() 是 Pydantic 模型提供的方法 把模型对象里的字段和值取出来，组成Python 字典
         movie_data_dict = movie_data.model_dump()
-        new_movie = Movie(**movie_data_dict)
+
+        new_movie = {}
+        for key, value in movie_data_dict.items():
+            new_movie[key] = value
+
+        # new_movie = Movie(**movie_data_dict)
+        # datetime.strptime(..., "%Y-%m-%d")：按指定格式解析字符串
+
+        # `new_movie` 现在是一个普通 `dict`，字典**没有 `.release_date`、`.title` 这种属性**，字典取值只能用 `new_movie["title"]`
         new_movie.release_date = datetime.strptime(movie_data_dict['release_date'], '%Y-%m-%d').date()
+        if  len(new_movie.title) >20:
+            raise HTTPException(status_code=400, detail="Movie title too long")
         session.add(new_movie)
         await session.commit()
         return new_movie

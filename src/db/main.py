@@ -31,12 +31,16 @@ from src.config import Config
 #     ))
 engine = create_async_engine(
     Config.DATABASE_URL,
+    #echo用来让 SQLAlchemy 把执行的 SQL 语句和相关数据库日志输出到终端。
     echo=True,
 )
 
 async def init_db():
+    # engine.begin() 请求一个可用于事务的连接上下文
     async with engine.begin() as conn:
         # 创建并访问元数据
+        #run_sync() 是 SQLAlchemy 提供的桥接方法：让这个同步数据库操作借用当前异步连接来执行
+        # create_all 根据已注册的表模型检查并创建缺失的表
         await conn.run_sync(SQLModel.metadata.create_all)
 
 

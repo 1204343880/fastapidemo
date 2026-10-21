@@ -9,13 +9,14 @@ from uuid import UUID
 
 # 路由器来将相关api端点进行分组
 movie_router = APIRouter()
+
 movie_service = Service()
 
 
 # 坏了 给我看的有些宕机了
 # 查看电影列表
 # response_model什么意思
-# response_model 描述的是响应正文的数据结构
+# response_model 描述的是响应正文的数据结构 返回应该是一个电影列表
 
 # 为什么后面写个类？返回状态吗是   response_model=List[Movie])
 # 这个接口返回电影列表，每一项都要符合 Movie 的字段和类型。
@@ -28,6 +29,9 @@ movie_service = Service()
 #  这种格式才对/movies?movies=...
 # async def read_movies(movies):
 #     return movies
+# session: AsyncSession：标明 session 应该是异步数据库会话
+# Depends(get_session)：告诉 FastAPI 通过依赖函数 get_session 提供这个参数
+# 语法不熟练！！！
 async def get_all_movies(session: AsyncSession = Depends(get_session)):
     # 都是协程中定义的方法 要await调用
     movies = await movie_service.get_all_movie(session)
@@ -55,7 +59,7 @@ async def create_movies(
     # # model_dump方法可以将数据转化为列表中的字典
     # # model_dump() 把 Pydantic 的 Movie 模型对象转换成一个 Python 字典
     # new_movie = movie_data.model_dump()
-    # # movie_routerend方法就是追加到列表末尾 只适用于列表
+    # movie_data: MovieCreateModel    # movie_routerend方法就是追加到列表末尾 只适用于列表
     # movies.movie_routerend(new_movie)
     return new_movie
 
