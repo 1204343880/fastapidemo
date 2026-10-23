@@ -16,6 +16,7 @@ user_services = UserService()
 REFRESH_TOKEN_EXPIRY = 2
 
 
+
 #注册路由
 @auth_router.post("/signup",
                   response_model=UserModel,

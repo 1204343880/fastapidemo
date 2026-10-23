@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "code-learning-review",
+  "version": "0.1.0",
+  "description": "Evidence-based backend code review and debugging coaching that helps developers reason through requirement changes and own their fixes.",
+  "author": { "name": "Codex User" },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "代码学习与检测skill",
+        "shortDescription": "代码审查、业务训练与 Debug 教练",
+        "longDescription": "基于当前代码和运行证据开展后端代码审查，通过项目经理式追问训练需求分析、业务逻辑和 Debug 能力。默认先指导学习，用户明确要求后再修改代码。",
+        "developerName": "Codex User",
+        "category": "Productivity",
+        "capabilities": [],
+        "defaultPrompt": "请用代码学习与检测模式审查当前项目：先检查项目规则和真实代码，再一次问我一个有证据依据的问题，训练我分析需求改动、业务逻辑和 Debug。"
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "代码学习与检测skill"
+  short_description: "代码审查、业务训练与 Debug 教练"
+  default_prompt: "请审查当前项目并一次问我一个基于代码证据的问题，训练我分析业务改动和 Debug。"
+policy:
+  allow_implicit_invocation: true

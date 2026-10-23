@@ -5,7 +5,6 @@ import sqlalchemy.dialects.mysql as mysql
 from sqlalchemy import Uuid
 from datetime import datetime,date
 from uuid import UUID
-# import uuid
 
 # 定义模型类
 class Movie(SQLModel,table=True):
