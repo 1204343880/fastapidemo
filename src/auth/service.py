@@ -12,7 +12,7 @@ class UserService:
         statement = select(User).where(User.email == email)
         # 这个地方是真正去数据库执行的地方？
         result = await session.execute(statement)
-        user = result.first()
+        user = result.scalars().first()
         return user
     # 使用这个方法检查用户是否存在
     async def user_exists(self,email: str, session:AsyncSession):
